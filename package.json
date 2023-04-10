@@ -1,0 +1,27 @@
+{
+  "name": "gloton-back",
+  "scripts": {
+    "start": "vite build && node dist/main.mjs",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@fastify/swagger": "^8.3.1",
+    "@fastify/swagger-ui": "^1.7.0",
+    "@tsconfig/node18": "^1.0.1",
+    "@types/node": "^18.15.11",
+    "concurrently": "^8.0.1",
+    "nodemon": "^2.0.22",
+    "tsc": "^2.0.4",
+    "typescript": "^5.0.4",
+    "vite": "^4.2.1",
+    "vite-plugin-node": "^3.0.2"
+  },
+  "dependencies": {
+    "@hono/node-server": "^0.5.0",
+    "fastify": "^4.15.0",
+    "hono": "^3.1.5",
+    "schema-dts": "^1.1.2",
+    "typeorm": "^0.3.14"
+  }
+}

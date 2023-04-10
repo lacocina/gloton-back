@@ -1,0 +1,36 @@
+Arguments: 
+  /Users/jopicornell/.nvm/versions/node/v16.15.0/bin/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js add @tsconfig/node19
+
+PATH: 
+  /Users/jopicornell/.sdkman/candidates/java/current/bin:/Users/jopicornell/.sdkman/candidates/gradle/current/bin:/Users/jopicornell/Library/pnpm:/Users/jopicornell/.bun/bin:/Users/jopicornell/.nvm/versions/node/v16.15.0/bin:/Users/jopicornell/.zplug/bin:/opt/homebrew/opt/openjdk/bin:/Users/jopicornell/Library/Python/3.9/bin:/Users/jopicornell/bin:/usr/local/bin:/Users/jopicornell/go/bin:/var/lib/snapd/snap/bin:/Users/jopicornell/.node_modules/bin:/usr/lib/node_modules/bin:/Users/jopicornell/.local/bin:/Users/jopicornell/.gem/ruby/2.6.0/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/jopicornell/.cargo/bin:/Users/jopicornell/development/tools/flutter/bin:/opt/homebrew/bin:/Users/jopicornell/Android/Sdk/emulator:/Users/jopicornell/Android/Sdk/tools:/Users/jopicornell/Android/Sdk/tools/bin:/Users/jopicornell/Library/Android/sdk/emulator:/Users/jopicornell/Library/Android/sdk/tools:/Users/jopicornell/Library/Android/sdk/tools/bin:/Users/jopicornell/Library/Android/sdk/platform-tools:/Users/jopicornell/.zplugin/polaris/bin:/Users/jopicornell/.gem/ruby/2.7.0/bin:/opt/google-cloud-sdk/bin:/usr/local/sbin:/opt/cuda/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/Users/jopicornell/Android/Sdk/platform-tools:/opt/PostgreSQL/10/bin:/Users/jopicornell/.pub-cache/bin:/Users/jopicornell/src/go/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.15.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@tsconfig%2fnode19: Not found
+      at Request.params.callback [as _callback] (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:66145:18)
+      at Request.self.callback (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:140890:22)
+      at Request.emit (node:events:527:28)
+      at Request.<anonymous> (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:141862:10)
+      at Request.emit (node:events:527:28)
+      at IncomingMessage.<anonymous> (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:141784:12)
+      at Object.onceWrapper (node:events:641:28)
+      at IncomingMessage.emit (node:events:539:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
