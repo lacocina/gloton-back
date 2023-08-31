@@ -117,18 +117,17 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
   })
 
   app.post('/category', async (request, reply) => {
-    const category = request.body
+    const newCategory = request.body
 
-    if (category?.businessId && category?.name) {
-      const businessCategories = businesses.find((business) => business.id === category.businessId)?.menu.categories
+    if (newCategory?.businessId && newCategory?.name) {
+      const businessCategories = businesses.find((business) => business.id === newCategory.businessId)?.menu.categories
 
-      delete category.businessId
-      category.id     = businessCategories.length + 1
-      category.items  = []
+      delete newCategory.businessId
+      newCategory.id     = businessCategories.length + 1
+      newCategory.items  = []
 
-      businessCategories.push(category)
+      businessCategories.push(newCategory)
       return 'Categoría añadida correctamente'
-
     }
 
     reply.status(400)
@@ -159,8 +158,31 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
     return 'Falta el id de la categoría, el businessId o el nombre'
   })
 
-  app.post('/product', async (request) => {
-    businesses.push(request.body.categoryData)
+  app.post('/product', async (request, reply) => {
+    const newProduct = request.body
+
+    console.log(newProduct)
+
+    if (
+        newProduct?.businessId
+        && newProduct.categoryId
+        && newProduct.name
+        && newProduct.price
+    ) {
+      const categoryProducts = businesses
+          .find((business) => business.id === newProduct.businessId)?.menu.categories
+          .find((category) => category.id === newProduct.categoryId).items
+
+      delete newProduct.businessId
+      delete newProduct.categoryId
+      newProduct.id     = categoryProducts.length + 1
+
+      categoryProducts.push(newProduct)
+      return 'Producto añadido correctamente'
+    }
+
+    reply.status(400)
+    return 'Falta el businessId, el categoryId, el nombre o el precio'
   })
 
   app.put('/product', async (request) => {
