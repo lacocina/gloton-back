@@ -50,7 +50,7 @@ export const registerUserRoutes = (app: FastifyInstance, opts, next) => {
       }
     }
 
-    reply.status(400)
+    reply.status(500)
     return 'Usuario o password incorrecto'
   })
 

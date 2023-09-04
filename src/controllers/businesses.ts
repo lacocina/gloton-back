@@ -116,6 +116,17 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
     return businesses.find((business) => business.id === Number(request.params.id))
   })
 
+  app.get('/:businessId/categories', async (request, reply) => {
+    const targetBusiness = businesses.find((business) => business.id === Number(request.params.businessId))
+
+    if (targetBusiness) {
+      return targetBusiness.menu.categories
+    }
+
+    reply.status(500)
+    return 'No se ha encontrado un negocio con este ID'
+  })
+
   app.post('/category', async (request, reply) => {
     const newCategory = request.body
 
@@ -130,7 +141,7 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
       return 'Categoría añadida correctamente'
     }
 
-    reply.status(400)
+    reply.status(500)
     return 'Falta el businessId o el Nombre'
   })
 
@@ -154,7 +165,7 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
       return 'Categoría añadida correctamente'
     }
 
-    reply.status(400)
+    reply.status(500)
     return 'Falta el id de la categoría, el businessId o el nombre'
   })
 
@@ -169,19 +180,26 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
         && newProduct.name
         && newProduct.price
     ) {
-      const categoryProducts = businesses
+      const targetCategory = businesses
           .find((business) => business.id === newProduct.businessId)?.menu.categories
-          .find((category) => category.id === newProduct.categoryId).items
+          .find((category) => category.id === newProduct.categoryId)
 
       delete newProduct.businessId
       delete newProduct.categoryId
-      newProduct.id     = categoryProducts.length + 1
 
-      categoryProducts.push(newProduct)
+      if (!!targetCategory.items) {
+        newProduct.id = targetCategory.items.length + 1
+      } else {
+        newProduct.id = 1
+        targetCategory.items = []
+      }
+
+      targetCategory.items.push(newProduct)
+
       return 'Producto añadido correctamente'
     }
 
-    reply.status(400)
+    reply.status(500)
     return 'Falta el businessId, el categoryId, el nombre o el precio'
   })
 
