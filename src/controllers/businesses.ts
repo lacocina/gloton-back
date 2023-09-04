@@ -131,6 +131,7 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
     const newCategory = request.body
 
     if (newCategory?.businessId && newCategory?.name) {
+      const businessId = newCategory.businessId
       const businessCategories = businesses.find((business) => business.id === newCategory.businessId)?.menu.categories
 
       delete newCategory.businessId
@@ -138,7 +139,7 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
       newCategory.items  = []
 
       businessCategories.push(newCategory)
-      return 'Categoría añadida correctamente'
+      return businesses.find((business) => business.id === businessId).menu.categories
     }
 
     reply.status(500)
