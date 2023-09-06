@@ -145,7 +145,6 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
     return 'Falta el businessId o el Nombre'
   })
 
-  // TODO Plural cuando nos referimos al conjunto
   app.patch('/:businessId/categories/:categoryId', async (request, reply) => {
     const updatedCategory : object | any = request.body
     const businessId = Number(request.params.businessId)
@@ -197,22 +196,20 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
     return `No existe una categoría con este ID: ${request.params.categoryId}`
   })
 
-  // TODO Plural cuando nos referimos al conjunto
-  app.post('/product', async (request, reply) => {
+  app.post('/:businessId/categories/:categoryId/products', async (request, reply) => {
     const newProduct = request.body
+    const businessId = Number(request.params.businessId)
+    const categoryId = Number(request.params.categoryId)
 
     if (
-        newProduct?.businessId
-        && newProduct.categoryId
+        businessId
+        && categoryId
         && newProduct.name
         && newProduct.price
     ) {
       const targetCategory = businesses
-          .find((business) => business.id === newProduct.businessId)?.menu.categories
-          .find((category) => category.id === newProduct.categoryId)
-
-      delete newProduct.businessId
-      delete newProduct.categoryId
+          .find((business) => business.id === businessId)?.menu.categories
+          .find((category) => category.id === categoryId)
 
       if (!!targetCategory.items) {
         newProduct.id = targetCategory.items.length + 1
@@ -230,7 +227,7 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
     return 'Falta el businessId, el categoryId, el nombre o el precio'
   })
 
-  app.put('/product', async (request) => {
+  app.put('/:businessId/products', async (request) => {
     businesses.push(request.body.categoryData)
   })
 
