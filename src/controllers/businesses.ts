@@ -127,53 +127,79 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
     return 'No se ha encontrado un negocio con este ID'
   })
 
-  app.post('/category', async (request, reply) => {
+  app.post('/:businessId/categories', async (request, reply) => {
     const newCategory = request.body
+    const businessId = Number(request.params.businessId)
 
-    if (newCategory?.businessId && newCategory?.name) {
-      const businessId = newCategory.businessId
-      const businessCategories = businesses.find((business) => business.id === newCategory.businessId)?.menu.categories
+    if (businessId && newCategory?.name) {
+      const businessCategories = businesses.find((business) => business.id === businessId)?.menu.categories
 
-      delete newCategory.businessId
-      newCategory.id     = businessCategories.length + 1
-      newCategory.items  = []
+      newCategory.id = businessCategories.length + 1
+      newCategory.items = []
 
       businessCategories.push(newCategory)
-      return businesses.find((business) => business.id === businessId).menu.categories
+      return newCategory
     }
 
     reply.status(500)
     return 'Falta el businessId o el Nombre'
   })
 
-  app.patch('/category', async (request, reply) => {
+  // TODO Plural cuando nos referimos al conjunto
+  app.patch('/:businessId/categories/:categoryId', async (request, reply) => {
     const updatedCategory : object | any = request.body
+    const businessId = Number(request.params.businessId)
+    const categoryId = Number(request.params.categoryId)
 
     if (
-        updatedCategory?.businessId
-        && updatedCategory?.id
+        businessId
+        && categoryId
         && updatedCategory?.name
     ) {
 
       const category = businesses
-          .find((business) => business.id === updatedCategory.businessId).menu.categories
-          .find((c) => c.id === updatedCategory.id)
+          .find((business) => business.id === businessId).menu.categories
+          .find((c) => c.id === categoryId)
 
       category.name = updatedCategory.name
       category.description = updatedCategory.description
       category.show = updatedCategory.show
 
-      return 'Categoría añadida correctamente'
+      return 'Categoría editada correctamente'
     }
 
     reply.status(500)
     return 'Falta el id de la categoría, el businessId o el nombre'
   })
 
+  app.delete('/:businessId/categories/:categoryId', async (request, reply) => {
+    const businessCategories = businesses.find((business) => business.id === Number(request.params.businessId))?.menu.categories
+
+    if (!businessCategories) {
+      reply.status(404)
+      return `No existe un business con este ID: ${request.params.businessId}`
+    }
+
+    let targetCategory
+
+    for (const [index, category] of businessCategories.entries()) {
+      if (category.id === Number(request.params.categoryId)) {
+        targetCategory = category
+        businessCategories.splice(index, 1)
+      }
+    }
+
+    if (targetCategory) {
+      return targetCategory
+    }
+
+    reply.status(404)
+    return `No existe una categoría con este ID: ${request.params.categoryId}`
+  })
+
+  // TODO Plural cuando nos referimos al conjunto
   app.post('/product', async (request, reply) => {
     const newProduct = request.body
-
-    console.log(newProduct)
 
     if (
         newProduct?.businessId
