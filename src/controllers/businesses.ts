@@ -164,7 +164,7 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
       category.description = updatedCategory.description
       category.show = updatedCategory.show
 
-      return 'Categoría editada correctamente'
+      return category
     }
 
     reply.status(500)
@@ -220,15 +220,41 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
 
       targetCategory.items.push(newProduct)
 
-      return 'Producto añadido correctamente'
+      return newProduct
     }
 
     reply.status(500)
     return 'Falta el businessId, el categoryId, el nombre o el precio'
   })
 
-  app.put('/:businessId/products', async (request) => {
-    businesses.push(request.body.categoryData)
+  app.patch('/:businessId/categories/:categoryId/products/:productId', async (request, reply) => {
+    const updatedProduct : object | any = request.body
+    const businessId = Number(request.params.businessId)
+    const categoryId = Number(request.params.categoryId)
+    const productId = Number(request.params.productId)
+
+    if (
+        businessId
+        && categoryId
+        && productId
+        && updatedProduct.name
+        && updatedProduct.price
+    ) {
+      const targetProduct = businesses
+          .find((business) => business.id === businessId)?.menu.categories
+          .find((category) => category.id === categoryId)?.items
+          .find((product) => product.id === productId)
+
+      targetProduct.name = updatedProduct.name
+      targetProduct.price = updatedProduct.price
+      targetProduct.description = updatedProduct.description
+      targetProduct.show = updatedProduct.show
+
+      return targetProduct
+    }
+
+    reply.status(500)
+    return 'Falta el businessId, el categoryId, el productId, el nombre o el precio'
   })
 
   next()
