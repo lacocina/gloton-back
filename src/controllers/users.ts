@@ -54,8 +54,22 @@ export const registerUserRoutes = (app: FastifyInstance, opts, next) => {
     return 'Usuario o password incorrecto'
   })
 
-  app.post('/', async (request) => {
-    users.push(request.body)
+  app.patch('/:userId', async (request, reply) => {
+    const userId = Number(request.params.userId)
+    const userNewData = request.body
+
+    const targetUser = users.find((user) => user.id === userId)
+
+    if (targetUser) {
+      targetUser.name =         userNewData.name        || targetUser.name
+      targetUser.phoneNumber =  userNewData.phoneNumber || targetUser.phoneNumber
+      targetUser.lastname =     userNewData.lastname
+
+      return targetUser
+    }
+
+    reply.status(404)
+    return 'No se ha encontrado este usuario'
   })
 
   next()
