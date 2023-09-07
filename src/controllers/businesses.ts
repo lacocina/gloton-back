@@ -116,6 +116,28 @@ export const registerBusinessRoutes = (app: FastifyInstance, opts, next) => {
     return businesses.find((business) => business.id === Number(request.params.id))
   })
 
+  app.patch('/:businessId', async (request, reply) => {
+    const businessId = Number(request.params.businessId)
+    const businessNewData = request.body
+
+    const targetBusiness = businesses.find((business) => business.id === businessId)
+
+    if (targetBusiness) {
+      targetBusiness.name =         businessNewData.name        || targetBusiness.name
+      targetBusiness.email =        businessNewData.email       || targetBusiness.email
+      targetBusiness.phoneNumber =  businessNewData.phoneNumber || targetBusiness.phoneNumber
+
+      return {
+        name: targetBusiness.name,
+        email: targetBusiness.email,
+        phoneNumber: targetBusiness.phoneNumber
+      }
+    }
+
+    reply.status(404)
+    return 'No se ha encontrado este Business'
+  })
+
   app.get('/:businessId/categories', async (request, reply) => {
     const targetBusiness = businesses.find((business) => business.id === Number(request.params.businessId))
 
