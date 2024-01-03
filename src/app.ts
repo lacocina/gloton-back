@@ -1,6 +1,7 @@
 import fastify from "fastify";
 import { registerUserRoutes } from './controllers/users'
 import { registerBusinessRoutes } from "./controllers/businesses.ts";
+import { registerCustomersRoutes } from "./controllers/jamones/customers.ts";
 import { registerSwagger } from "./swagger.ts";
 import cors from "@fastify/cors";
 
@@ -13,6 +14,7 @@ app.register(cors, { origin: true })
 
 app.register(registerUserRoutes, { prefix: '/users' })
 app.register(registerBusinessRoutes, { prefix: '/businesses' })
+app.register(registerCustomersRoutes, { prefix: '/customers' })
 app.put('/:id', {
   schema: {
     description: 'post some data',
