@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/gloton-back.iml" filepath="$PROJECT_DIR$/.idea/gloton-back.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/jamones-back.iml" filepath="$PROJECT_DIR$/.idea/jamones-back.iml" />
     </modules>
   </component>
 </project>
